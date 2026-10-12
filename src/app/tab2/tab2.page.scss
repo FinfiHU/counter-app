@@ -1,8 +1,13 @@
 .history-header,
+.history-filters,
 ion-list,
 .state-message {
   max-width: 40rem;
   margin: 1rem auto;
+}
+
+.history-header p {
+  margin: 0.25rem 0;
 }
 
 .history-header {
@@ -12,9 +17,27 @@ ion-list,
   gap: 1rem;
 }
 
+.history-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(10rem, 0.6fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.history-filters ion-searchbar {
+  padding: 0;
+}
+
 .state-message {
   color: var(--ion-color-medium);
   text-align: center;
+}
+
+@media (max-width: 30rem) {
+  .history-filters {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }
 
 ion-note {
