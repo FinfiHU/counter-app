@@ -42,6 +42,18 @@
         <ion-select-option value="value-asc">Hodnota vzestupně</ion-select-option>
         <ion-select-option value="value-desc">Hodnota sestupně</ion-select-option>
       </ion-select>
+
+      <ion-select
+        aria-label="Filtrovat podle hodnoty"
+        label="Hodnoty"
+        interface="popover"
+        [(ngModel)]="valueFilter"
+      >
+        <ion-select-option value="all">Všechny</ion-select-option>
+        <ion-select-option value="positive">Kladné</ion-select-option>
+        <ion-select-option value="negative">Záporné</ion-select-option>
+        <!--Filtrování záporných hodnot působí zbytečně, když počítadlu vypínáme možnost -1 při hodnotě 0, ale bylo to zadáno.-->
+      </ion-select>
     </div>
 
     @if (visibleCounters.length === 0) {

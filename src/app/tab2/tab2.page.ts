@@ -22,6 +22,7 @@ import { SavedCounter } from '../models/saved-counter';
 import { CounterService } from '../services/counter.service';
 
 type HistorySort = 'recent' | 'name' | 'value-asc' | 'value-desc';
+type ValueFilter = 'all' | 'positive' | 'negative';
 
 @Component({
   selector: 'app-tab2',
@@ -52,28 +53,40 @@ export class Tab2Page implements OnInit {
 
   searchTerm = '';
   sortBy: HistorySort = 'recent';
+  valueFilter: ValueFilter = 'all';
 
   get visibleCounters(): SavedCounter[] {
     const query = this.searchTerm.trim().toLocaleLowerCase('cs');
     const counters = this.counterService.counters().filter((counter) =>
       counter.name.toLocaleLowerCase('cs').includes(query),
     );
+    const filteredCounters = counters.filter((counter) => {
+      if (this.valueFilter === 'positive') {
+        return counter.value > 0;
+      }
+
+      if (this.valueFilter === 'negative') {
+        return counter.value < 0;
+      }
+
+      return true;
+    });
 
     if (this.sortBy === 'name') {
-      return counters.sort((a, b) =>
+      return filteredCounters.sort((a, b) =>
         a.name.localeCompare(b.name, 'cs', { sensitivity: 'base' }),
       );
     }
 
     if (this.sortBy === 'value-asc') {
-      return counters.sort((a, b) => a.value - b.value);
+      return filteredCounters.sort((a, b) => a.value - b.value);
     }
 
     if (this.sortBy === 'value-desc') {
-      return counters.sort((a, b) => b.value - a.value);
+      return filteredCounters.sort((a, b) => b.value - a.value);
     }
 
-    return counters;
+    return filteredCounters;
   }
 
   get totalValue(): number {
